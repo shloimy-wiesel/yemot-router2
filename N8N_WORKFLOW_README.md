@@ -93,13 +93,35 @@ Each audio file will be uploaded to Yemot line 8, and you'll see the API respons
 - Verify the Yemot API endpoint is accessible from your n8n instance
 
 ### Binary Data Issues
-If you get errors about binary data, ensure the "Split Attachments" node is properly configured to handle binary data from Gmail attachments.
+If you get errors about binary data:
+- The workflow assumes Gmail attachments are available as `$binary.attachment`
+- If this doesn't work, you may need to adjust the binary reference based on how n8n stores Gmail attachments
+- Check the "Split Attachments" node output to see the binary data structure
+- Common alternatives: `$binary.data`, `$binary[0]`, or `$binary[$json.name]`
+- After splitting, each attachment should have its binary data accessible
+
+To troubleshoot:
+1. Run the workflow in test mode
+2. Check the output of the "Split Attachments" node
+3. Look for the binary data property name
+4. Update the "file" parameter in the upload node accordingly
 
 ## Customization
 
 ### Change Target Line Number
 To upload to a different line number, edit the "Upload to Yemot Line 8" node:
-- Change the `path` parameter from `ivr2:/$Path/8` to your desired line (e.g., `ivr2:/$Path/5` for line 5)
+- Change the `path` parameter from `ivr2:/$Path/8` to your desired line
+- Format: `ivr2:/$Path/[LINE_NUMBER]` where LINE_NUMBER is the target extension folder
+- Example: `ivr2:/$Path/5` for line 5, `ivr2:/$Path/10` for line 10
+- Note: `$Path` is a Yemot variable that gets replaced with your account's path automatically
+
+### Change Upload Path Structure
+The default path `ivr2:/$Path/8` follows Yemot's path structure:
+- `ivr2:` - Specifies the IVR2 system
+- `$Path` - Yemot variable for your account path
+- `/8` - The extension/line number (in this case, line 8)
+
+You can customize this to upload to different locations in your Yemot system.
 
 ### Add Email Notification
 You can add an email notification node after successful uploads to notify yourself when files are uploaded.
