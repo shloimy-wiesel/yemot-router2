@@ -25,10 +25,11 @@
       "name": "Gmail Trigger",
       "credentials": {
         "gmailOAuth2": {
-          "id": "YOUR_GMAIL_CREDENTIAL_ID",
-          "name": "Gmail account"
+          "id": "CONFIGURE_AFTER_IMPORT",
+          "name": "Gmail OAuth2 Credentials"
         }
-      }
+      },
+      "notes": "Configure Gmail OAuth2 credentials after import"
     },
     {
       "parameters": {
@@ -89,6 +90,8 @@
       "parameters": {
         "method": "POST",
         "url": "https://www.call2all.co.il/ym/api/UploadFile",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": []
@@ -99,11 +102,11 @@
           "parameters": [
             {
               "name": "username",
-              "value": "YOUR_YEMOT_USERNAME"
+              "value": "={{ $credentials.user }}"
             },
             {
               "name": "password",
-              "value": "YOUR_YEMOT_PASSWORD"
+              "value": "={{ $credentials.password }}"
             },
             {
               "name": "path",
@@ -111,7 +114,7 @@
             },
             {
               "name": "file",
-              "value": "={{ $binary.data }}"
+              "value": "={{ $binary.attachment }}"
             }
           ]
         },
@@ -124,7 +127,14 @@
         -200
       ],
       "id": "ee41ed3a-97c2-4df5-9c99-0dc7c690cf57",
-      "name": "Upload to Yemot Line 8"
+      "name": "Upload to Yemot Line 8",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "CONFIGURE_AFTER_IMPORT",
+          "name": "Yemot API Credentials"
+        }
+      },
+      "notes": "Configure Yemot username and password in HTTP Basic Auth credentials"
     },
     {
       "parameters": {

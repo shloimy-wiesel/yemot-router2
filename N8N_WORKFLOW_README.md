@@ -29,11 +29,14 @@ The workflow performs the following steps:
 
 ### 3. Configure Yemot Credentials
 
-1. Click on the "Upload to Yemot Line 8" node
-2. Replace the placeholder values in the body parameters:
-   - `username`: Your Yemot username
-   - `password`: Your Yemot password
-   - `path`: Currently set to `ivr2:/$Path/8` (line 8). Modify if needed.
+1. In n8n, go to "Credentials" → "New"
+2. Select "HTTP Basic Auth"
+3. Name it "Yemot API Credentials"
+4. Enter your Yemot username and password
+5. Save the credentials
+6. Go back to the workflow
+7. Click on the "Upload to Yemot Line 8" node
+8. Under "Credentials", select the "Yemot API Credentials" you just created
 
 ### 4. Update Email Filter
 
@@ -84,9 +87,10 @@ Each audio file will be uploaded to Yemot line 8, and you'll see the API respons
 - Ensure the workflow is activated (toggle switch is on)
 
 ### Upload Failures
-- Verify Yemot username and password are correct
+- Verify Yemot credentials are properly configured in n8n (HTTP Basic Auth)
 - Check that the path `ivr2:/$Path/8` is correct for your Yemot system
 - Ensure your Yemot account has permission to upload to line 8
+- Verify the Yemot API endpoint is accessible from your n8n instance
 
 ### Binary Data Issues
 If you get errors about binary data, ensure the "Split Attachments" node is properly configured to handle binary data from Gmail attachments.
